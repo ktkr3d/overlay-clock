@@ -3,7 +3,7 @@
   "description": "Overlay Clock",
   "uuid": "overlay-clock@ktkr3d.github.io",
   "shell-version": [
-    "3.28",
-    "3.30"
+    "3.30",
+    "3.28"
   ]
 }
