@@ -2,8 +2,15 @@ const St = imports.gi.St;
 const Main = imports.ui.main;
 const Mainloop = imports.mainloop;
 
-const REFRESH_INTERVAL = 10;
+const Horizontal = { left : 0, center : 1, right : 2 }
+const Vertical = { top : 0, center : 1, bottom : 2 }
+
 let clockLabel;
+let refreshInterval = 10;
+let offsetX = 0;
+let offsetY = 0;
+let alignH = Horizontal.left;
+let alignV = Vertical.bottom;
 
 function init() {
 }
@@ -15,8 +22,8 @@ function enable() {
     }
 
     let monitor = Main.layoutManager.primaryMonitor;
-    clockLabel.set_position(monitor.x + Math.floor(11),
-                            monitor.y + Math.floor(monitor.height - clockLabel.height));
+    clockLabel.set_position(monitor.x + Math.floor((monitor.width - clockLabel.width) / 2 * alignH + offsetX),
+                            monitor.y + Math.floor((monitor.height - clockLabel.height) / 2 * alignV + offsetY));
 
     updateClock();
 }
@@ -31,12 +38,12 @@ function updateClock() {
         let clockDate = new Date();
         let dateFormat = _("%H:%M");
         clockLabel.text = clockDate.toLocaleFormat(dateFormat);
-        set_timer();
+        setTimer();
     }
 }
 
-function set_timer() {
-    Mainloop.timeout_add_seconds(REFRESH_INTERVAL, function(){
+function setTimer() {
+    Mainloop.timeout_add_seconds(refreshInterval, function(){
         updateClock();
     });
 }
